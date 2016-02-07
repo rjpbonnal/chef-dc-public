@@ -1,0 +1,11 @@
+options(repos=<%= node.bioinfo.cran_mirror %> )
+source("http://bioconductor.org/biocLite.R")
+biocLite()
+
+<% node.bioinfo[:R_packages][:bioconductor].each do |package| %>
+biocLite(<%= '"' + package + '"' %>)
+<% end %>
+
+<% node.bioinfo[:R_packages][:cran].each do |package| %>
+install.packages(<%= '"' + package + '"' %>, dependencies = TRUE)
+<% end %>

@@ -1,0 +1,1 @@
+default[:kernel][:version] = "3.2.0.57"

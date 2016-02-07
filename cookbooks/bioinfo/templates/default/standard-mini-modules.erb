@@ -1,0 +1,73 @@
+#%Module
+
+set          root               <%= @root %>
+
+<% if (@remove_root && @previous_module) %>
+set          remove_root        <%= @remove_root %>
+set          previous_module    <%= @previous_module %>
+
+if { [ is-loaded $previous_module ] } {
+	if { [ file exists $remove_root/bin ] } {
+		remove-path PATH           $remove_root/bin
+	} else {
+		remove-path PATH               $remove_root	
+	}
+
+	if { [ file exists $remove_root/lib ] } {
+		remove-path LD_LIBRARY_PATH    $remove_root/lib
+	}
+
+	if { [ file exists $remove_root/share/man ] } {
+		remove-path MANPATH            $remove_root/share/man
+	}
+
+	if { [ file exists $remove_root/lib/python2.7/site-packages ] } {
+		remove-path PYTHONPATH    $remove_root/lib/python2.7/site-packages
+	}
+
+
+	if { [ file exists $remove_root/lib/R/include ] } {
+		remove-path C_INCLUDE_PATH    $remove_root/lib/R/include
+	}
+}
+<% end %>
+
+if { [ file exists $root/bin ] } {
+	prepend-path PATH           $root/bin
+} else {
+    prepend-path PATH               $root	
+}
+
+
+
+if { [ file exists $root/lib ] } {
+	prepend-path LD_LIBRARY_PATH    $root/lib
+}
+
+
+
+if { [ file exists $root/share/man ] } {
+	prepend-path MANPATH            $root/share/man
+}
+
+
+if { [ file exists $root/lib/python2.7/site-packages ] } {
+    prepend-path PYTHONPATH    $root/lib/python2.7/site-packages
+}
+
+
+if { [ file exists $root/lib/R/include ] } {
+    prepend-path C_INCLUDE_PATH    $root/lib/R/include
+}
+
+<% if @c_include_path %>
+    prepend-path C_INCLUDE_PATH    $root/<%= @c_include_path %>
+<% end %>
+
+<% if @cplus_include_path %>
+    prepend-path CPLUS_INCLUDE_PATH    $root/<%= @cplus_include_path %>
+<% end %>
+
+<% if @pkgconfig_path %>
+    prepend-path PKG_CONFIG_PATH    $root/<%= @pkgconfig_path %>
+<% end %>
